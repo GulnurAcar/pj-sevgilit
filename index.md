@@ -1,4 +1,4 @@
-# Example Progress Journal
+# Türkan Sevgili Progress Journal
 
 ## Week 2 (Oct 10)
 
