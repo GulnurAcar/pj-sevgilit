@@ -2,12 +2,13 @@
 
 ## Week 3 (Oct 24)
 
-The data set I am propose to use in my project is the Global Terrorism data set. Here is the data and my initial exploratory data analysis on it.
-We decided on the groups. Our group name is **datING** and other members are Bilge Uzuner, Sefa Erbaş. (Also me Türkan Sevgili:) )
++ The data set I am propose to use in my project is the TED Talks data set. [Here](files/TED_Talks.html) is the data and my initial exploratory data analysis on it.
+
++ We decided on the groups. Our group name is **datING** and other members are Bilge Uzuner, Sefa Erbaş. (Also me Türkan Sevgili:) )
 
 ### Udacity Update
 
-I finished first 3 lessons on the Udacity course. I did all the work required and all the quizes.
+I finished first 3 lessons (What is EDA?, R Basics, Explore One Variable) on the Udacity course. I did all the work required and all the quizes.
 
 ## Week 2 (Oct 10)
 
