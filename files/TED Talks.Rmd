@@ -1,0 +1,183 @@
+---
+title: "Analysis of TED Talks"
+author: "Turkan Sevgili - BDA 503 - Fall 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+*************
+
+### TED Talks Dataset
+
+**[TED Talks](https://www.kaggle.com/rounakbanik/ted-talks/data)** dataset contains information about all audio-video recordings of TED Talks uploaded to the official TED.com website until September 21st, 2017. It contains information about all talks including number of views, number of comments, descriptions, speakers and titles. 
+
+
+#### Content
+
++ ***name:*** The official name of the TED Talk. Includes the title and the speaker.
++ ***title:*** The title of the talk
++ ***description:*** A blurb of what the talk is about.
++ ***main_speaker:*** The first named speaker of the talk.
++ ***speaker_occupation:*** The occupation of the main speaker.
++ ***num_speaker:*** The number of speakers in the talk.
++ ***duration:*** The duration of the talk in seconds.
++ ***event:*** The TED/TEDx event where the talk took place.
++ ***film_date:*** The Unix timestamp of the filming.
++ ***published_date:*** The Unix timestamp for the publication of the talk on TED.com
++ ***comments:*** The number of first level comments made on the talk.
++ ***tags:*** The themes associated with the talk.
++ ***languages:*** The number of languages in which the talk is available.
++ ***ratings:*** A stringified dictionary of the various ratings given to the talk (inspiring, fascinating, jaw dropping, etc.)
++ ***related_talks:*** A list of dictionaries of recommended talks to watch next.
++ ***url:*** The URL of the talk.
++ ***views:*** The number of views on the talk.
+
+*************
+
+#### Initial Exploratory Analysis
+
+Ted Talks Dataset consists of 2,550 observations and 17 variables. I try to find that the most viewed and most favorited Talks comments and views numbers. Also analyse speakers occupations,relationship between languages and views , relationship between comments and views.
+
+```{r,echo=FALSE,results="hide",include=FALSE}
+
+library(readr)
+ted_talks <- read_csv("D:/Users/tkartalkaya/Desktop/Verisetleri/TED Talks/ted_main.csv")
+```
+
+
+```{r,echo=FALSE,results="hide",include=FALSE}
+# Summary of ted_talks structure
+str(ted_talks)
+
+
+library(dplyr)#glimpse function
+```
+
+```{r}
+#Nature of rows and columns//quick review of dataset
+glimpse(ted_talks)
+
+#Number of rows and columns
+dim(ted_talks)
+```
+
+```{r,echo=FALSE,results="hide",include=FALSE}
+# output:
+# Observations: 2,550
+# Variables: 17
+
+
+mean(ted_talks$views)
+```
+
+```{r}
+#How many views does the most viewed TED Talk take?
+
+max(ted_talks$views)
+
+#How many comments does the most popular TED Talk take?
+
+max(ted_talks$comments, na.rm = FALSE)
+
+#How many TED Talks a speaker have?
+d1= ted_talks %>%group_by(main_speaker) %>% 
+  summarise(total_ted_talks=n())%>% 
+  arrange(desc(total_ted_talks)) 
+
+d1
+
+
+#What are speakers occupations? 
+d2= ted_talks %>%group_by(speaker_occupation) %>% 
+  summarise(total_ted_talks=n())%>% 
+  arrange(desc(total_ted_talks)) 
+
+d2
+
+```
+
+```{r}
+library(ggplot2)#visualisation
+
+#How many speaker have 5/more than 5 TED Talks?
+d3 = ted_talks %>%group_by(main_speaker) %>% 
+  summarise(total_ted_talks=n())%>% 
+  filter(total_ted_talks>=5) %>% 
+  arrange(desc(total_ted_talks)) 
+
+d3
+
+#Who is Top 10 popular TED Talks Speaker?
+v1 <- ggplot(data=d3, aes(x=main_speaker, y=total_ted_talks, fill=time)) + 
+  geom_bar(colour="black", fill="#bdc3c7", width=.8, stat="identity") + 
+  guides(fill=FALSE) +
+  xlab("Names Of Speakers") + ylab("Number of Talks") +
+  ggtitle("Top 10 TED Speakers")+
+  theme(axis.text.x = element_text(angle=60, size=10))
+v1 
+
+# Which occupations are most popular amongst TED speakers?
+d4= ted_talks %>%group_by(speaker_occupation) %>% 
+  summarise(total_ted_talks=n())%>% 
+  filter(total_ted_talks>=20) %>% 
+  arrange(desc(total_ted_talks)) 
+
+d4
+
+#What are Top 15 Occupations of TED Speakers?
+v2 <- ggplot(data=d4, aes(x=speaker_occupation, y=total_ted_talks, fill=time)) + 
+  geom_bar(colour="black", fill="#bdc3c7", width=.8, stat="identity") + 
+  guides(fill=FALSE) +
+  xlab("Occupations Of Speakers") + ylab("Number of Speaker") +
+  ggtitle("Top 15 Occupation of TED Speakers")+
+  theme(axis.text.x = element_text(angle=60, size=10))
+v2
+
+#How many different languages the talk is available?
+
+v3 <- ggplot(aes(x = languages), data = ted_talks) +
+  geom_histogram(binwidth = 1) +
+  scale_x_continuous(limits = c(0, 100))
+
+v3
+
+#Is there any relationship between languages and views?
+
+v4 <- ggplot(data = ted_talks, aes(x = languages, y = views)) + 
+  geom_point() 
+
+v4
+
+#Is there any relationship between comments and views?
+
+v5 <- ggplot(data = ted_talks, aes(x = comments, y = views)) + 
+  geom_point() 
+
+v5
+```
+
+*************
+
+#### References
+
+Dataset;
+
+[https://www.kaggle.com/rounakbanik/ted-talks](https://www.kaggle.com/rounakbanik/ted-talks)
+
+Analysis;
+
+[https://www.kaggle.com/lpang36/analysis-of-ted-talk-ratings](https://www.kaggle.com/lpang36/analysis-of-ted-talk-ratings)
+
+[https://www.rdocumentation.org/packages/dplyr/versions/0.7.3/topics/filter](https://www.rdocumentation.org/packages/dplyr/versions/0.7.3/topics/filter)
+[https://stackoverflow.com/questions/26581410/summarizing-count-and-conditional-aggregate-functions-on-the-same-factor](https://stackoverflow.com/questions/26581410/summarizing-count-and-conditional-aggregate-functions-on-the-same-facto)
+[https://stackoverflow.com/questions/22767893/find-number-of-rows-using-dplyr-group-by](https://stackoverflow.com/questions/22767893/find-number-of-rows-using-dplyr-group-by)
+
+Visualization;
+
+[http://www.cookbook-r.com/Graphs/Bar_and_line_graphs_(ggplot2)/](http://www.cookbook-r.com/Graphs/Bar_and_line_graphs_(ggplot2)/)
+
+[http://ggplot2.tidyverse.org/reference/geom_bar.html](http://ggplot2.tidyverse.org/reference/geom_bar.html)
+
+[https://plot.ly/ggplot2/geom_bar/](https://plot.ly/ggplot2/geom_bar/)
