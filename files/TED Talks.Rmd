@@ -38,7 +38,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 #### Initial Exploratory Analysis
 
-Ted Talks Dataset consists of 2,550 observations and 17 variables. I try to find that the most viewed and most favorited Talks comments and views numbers. Also analyse speakers occupations,relationship between languages and views , relationship between comments and views.
+Ted Talks Dataset consists of 2,550 observations and 17 variables. I'll try to find that the most viewed and most favorited Talks comments and views numbers. Also I will analyse speakers occupations,relationship between languages and views , relationship between comments and views.
 
 ```{r,echo=FALSE,results="hide",include=FALSE}
 
