@@ -99,3 +99,12 @@ CART is a way that can be used to show the probability of being in any hierarchi
 
 The tree has splits that lead to terminal nodes. Each split is basically an if or then statement. In the first split, V53 < 0.056,(V53 - char_freq_$) then the response is splits. Take the far right node in basic `tree.pruned` plot as an example, 63/885 under “1” means 63 people that actually spam and 885 that actually predicted as spam.
 
+## References
+
+1. [https://mef-bda503.github.io/files/assignment_spam_data.html](https://mef-bda503.github.io/files/assignment_spam_data.html)
+
+2. [https://mef-bda503.github.io/files/intro_to_ml_2.html](https://mef-bda503.github.io/files/intro_to_ml_2.html)
+
+3. [https://github.com/feelosophy13/spam_prediction_with_text_analytics/blob/master/script.R](https://github.com/feelosophy13/spam_prediction_with_text_analytics/blob/master/script.R)
+
+4. [https://rpubs.com/minma/cart_with_rpart](https://rpubs.com/minma/cart_with_rpart)
