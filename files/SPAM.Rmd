@@ -1,0 +1,101 @@
+---
+title: "SPAM Detection with Decision Trees"
+author: "Turkan Sevgili"
+date: "28 November 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## SPAM Detection with Decision Trees
+
+  Huge number of spam emails being sent across the Internet each day. Most email providers offer a spam filter that automatically flags likely spam messages and separates them. These filters use a number of techniques. In this homework problem, I built a CART model to detect spam mail. Also performance depends on correct specification of spam/non-spam mails in the test subset.
+
+## CART Modeling
+
+```{r, results='hide',message=FALSE}
+# Necessary libraries
+library(rpart) #To construct CART models
+library(rpart.plot) 
+library(rattle) #For visualization
+library(dplyr) #For data manipulation
+```
+
+```{r}
+# Begin by loading the dataset
+library(readr)
+load("D:/Users/tkartalkaya/Desktop/Verisetleri/spam_data.RData")
+head(spam_data)
+
+# How many emails are in the dataset?
+dim(spam_data)
+
+# Convert the dependent variable to a factor.
+spam_data$spam_or_not <- as.factor(spam_data$spam_or_not)
+
+# How many of the emails are spam?
+table(spam_data$spam_or_not==0)
+```
+
+```{r}
+# Split data to train and test.
+spam_data_train<-spam_data%>%filter(train_test==0)%>% select(-train_test)
+spam_data_test<-spam_data%>%filter(train_test==1)%>% select(-train_test)
+```
+
+```{r}
+# Build the model with the training data
+# A CART model called spam_data_CART, using the default parameters to train the model.
+spam_data_CART <- rpart(spam_or_not ~ ., data=spam_data_train, method = 'class')
+printcp(spam_data_CART)# display the results
+fancyRpartPlot(spam_data_CART)
+summary(spam_data_CART) # detailed summary of splits
+```
+
+
+```{r}
+# What is the testing set accuracy of spamCART, using a threshold of 0.5 for predictions?
+predPercCART.test <- predict(spam_data_CART, newdata = spam_data_test)[ , 2]
+head(predPercCART.test)
+predCART.test <- ifelse(predPercCART.test > 0.5, 1, 0)
+table(predCART.test, spam_data_test$spam_or_not)
+```
+
+## Plots
+
+```{r}
+# finally, lets get a graphical representation of the tree
+bestcp <- spam_data_CART$cptable[which.min(spam_data_CART$cptable[,"xerror"]),"CP"]
+
+# Prune the tree using the best cp.
+tree.pruned <- prune(spam_data_CART, cp = bestcp)
+
+# basic tree plot
+plot(tree.pruned)
+text(tree.pruned, cex = 0.8, use.n = TRUE, xpd = TRUE)
+```
+
+```{r}
+#More readable plot with bestcp
+only_count <- function(x, labs, digits, varlen)
+{
+  paste(x$frame$n)
+}
+
+boxcols <- c("green", "orange")[tree.pruned$frame$yval]
+
+par(xpd=TRUE)
+prp(tree.pruned, faclen = 0, cex = 0.8, node.fun=only_count, box.col = boxcols,,main = 'Classification Tree for Spam')#put the counts within the circles
+legend("bottomright", legend = c("not_spam","spam"), fill = c("green", "orange"),
+       title = "Group")
+```
+
+
+## Conclusion
+
+CART is a way that can be used to show the probability of being in any hierarchical group. Above figures provides a visual of the technique in action. 
+
+The tree has splits that lead to terminal nodes. Each split is basically an if or then statement. In the first split, V53 < 0.056,(V53 - char_freq_$) then the response is splits. Take the far right node in basic `tree.pruned` plot as an example, 63/885 under “1” means 63 people that actually spam and 885 that actually predicted as spam.
+
