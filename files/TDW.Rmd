@@ -1,0 +1,187 @@
+---
+title: "TDW"
+author: "Turkan Sevgili"
+date: "13 November 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Travel Weather Data
+
+Source: [Tidyverse Recap](https://mef-bda503.github.io/files/tidyverse_recap_p1.html)
+
+First I had a quick review of Travel Weather data and finished all exercises.
+
+```{r,message=FALSE}
+#Load package tidyverse
+library(tidyverse)
+
+# Begin by loading the dataset
+library(readr)
+load("D:/Users/tkartalkaya/Desktop/travel_weather.RData")
+
+travel_weather %>% tbl_df()
+
+glimpse(travel_weather)
+```
+
+
+###select/rename
+```{r}
+
+1
+travel_weather %>% select(year, month, day, Venice)
+2
+travel_weather %>% select(Venice:Amsterdam)
+3
+travel_weather %>% select(-NYC, -London)
+4
+travel_weather %>% rename(`New York` = NYC)
+```
+
+
+###arrange
+```{r}
+
+1
+travel_weather %>%
+  arrange(NYC)
+2
+travel_weather %>%
+  arrange(NYC,desc(Amsterdam))
+3
+travel_weather %>%
+  arrange (desc(year),desc(month),desc(day))
+4
+travel_weather %>%
+  arrange(London - Amsterdam)
+```
+
+###mutate/transmute
+```{r}
+
+1
+travel_weather %>%
+  mutate(VAdiff = Venice - Amsterdam)
+2
+travel_weather %>%
+  mutate(VwarmerA = Venice > Amsterdam)
+3
+travel_weather %>%
+  transmute(year,month,day,
+            VwarmerA = ifelse(Venice > Amsterdam,'warmer', 'colder'))
+```
+
+###group_by/summarise
+```{r}
+
+1
+travel_weather %>%
+  summarise(Venice_mean=mean(Venice),NYC_mean=mean(NYC))
+2
+travel_weather %>%
+  group_by(month) %>%
+  summarise(Amsterdam_mean=round(mean(Amsterdam),2))
+3
+travel_weather %>%
+  group_by(year,month) %>%
+  summarise(AwarmerN_n=sum(Amsterdam > NYC))
+4
+travel_weather %>%
+  group_by(year,month) %>%
+  summarise(London_min=min(London),London_median=median(London),London_max=max(London))
+```
+
+##Advanced Examples
+
+###Lead and Lag
+```{r}
+travel_weather %>%
+  transmute(year,month,day,Amsterdam,A_prev=lag(Amsterdam),A_next=lead(Amsterdam),
+            A_prev_diff=Amsterdam-A_prev,A_next_diff=Amsterdam-A_next)
+```
+
+###slice
+```{r}
+travel_weather %>%
+  slice(1:3)
+
+travel_weather %>%
+  group_by(year) %>%
+  slice(1:3)
+```
+
+###Gather and Spread
+```{r}
+#Transform to long format by melting the data
+#Though you should not include date columns
+travel_weather_long <-
+  travel_weather %>%
+  gather(key=City,value=Temperature,-year,-month,-day)
+travel_weather_long
+
+#Now group by and summarise to get average temperatures for each city and month
+travel_weather_long %>%
+  group_by(month,City) %>%
+  summarise(temp_avg=round(mean(Temperature))) %>%
+  #Now spread the months to the columns
+  spread(month,temp_avg)
+```
+
+###_all and _at prefixes
+```{r}
+#Method 1
+travel_weather %>%
+  select(Amsterdam:Venice) %>%
+  summarise_all(funs(round(mean(.))))
+
+#Method 2
+travel_weather %>%
+  summarise_at(vars(Amsterdam:Venice),funs(round(mean(.))))
+
+#Method 2
+travel_weather %>%
+  mutate_at(vars(Amsterdam,London,Venice),funs(diff_NYC=abs(NYC-.))) %>%
+  select(-Amsterdam,-London,-Venice)
+```
+
+
+## Final Exercises
+
+My answers of the final exercices are shown below.
+
+1. Return the dates which Amsterdam is strictly warmer than London but strictly colder than Venice
+
+```{r}
+travel_weather %>%
+  filter(  (Amsterdam>London) & (Amsterdam<Venice))
+```
+
+
+2. For each month of each year calculate the average difference between NYC and Amsterdam for the days NYC is strictly warmer than Amsterdam, rounded by 1 decimal. Arrange from the highest difference to the lowest.
+
+```{r}
+travel_weather %>%
+    filter(NYC>Amsterdam)%>%
+    group_by(year,month)%>%
+    summarise_at(vars(Amsterdam,NYC),funs(round(mean(.),1)))%>%
+    mutate(NYCwA_diff=NYC-Amsterdam)%>%
+    select(-Amsterdam,-NYC)%>%
+    arrange(desc(NYCwA_diff))
+```
+
+
+3. Return the warmest city and its temperature of each day.
+
+```{r}
+travel_weather %>%
+  gather(key=City,value=Temperature, -year, -month, -day) %>%
+  group_by(year, month, day) %>%
+  mutate(max_temp =max(Temperature)) %>%
+  filter(Temperature==max_temp)  %>%
+  arrange(year,month,day) %>%
+  select(year, month, day,City,Temperature)
+```
