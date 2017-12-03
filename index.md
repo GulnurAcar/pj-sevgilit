@@ -6,10 +6,11 @@
 
 ### DataCamp Update
 
-I finished lessons below on DataCamp.
+I finished lessons below on DataCamp. ***(Updated:03/12/2017)***
 
   + [Supervised Learning in R: Regression](https://www.datacamp.com/courses/supervised-learning-in-r-regression)
   + [Unsupervised Learning in R](https://www.datacamp.com/courses/unsupervised-learning-in-r)
+  + [Supervised Learning in R: Classification](https://www.datacamp.com/courses/supervised-learning-in-r-classification)
 
 ## Week 4 (Nov 7)
 
