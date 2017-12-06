@@ -1,8 +1,10 @@
 # Türkan Sevgili Progress Journal
 
-## Week 5 (Nov 21)
+### Udacity Update
 
-+ [Here](files/SPAM.html) is my analysis on Assignment 2: Spam Data. ***(Updated:30/11/2017)***
+ + I have completed of Udacity course, called “Data Analysis with R”. I finished almost all practices. ***(Updated:06/12/2017)***
+
+ + I finished first 3 lessons (What is EDA?, R Basics, Explore One Variable) on the Udacity course. I did all the work required and all the quizes.
 
 ### DataCamp Update
 
@@ -11,10 +13,17 @@ I finished lessons below on DataCamp. ***(Updated:03/12/2017)***
   + [Supervised Learning in R: Regression](https://www.datacamp.com/courses/supervised-learning-in-r-regression)
   + [Unsupervised Learning in R](https://www.datacamp.com/courses/unsupervised-learning-in-r)
   + [Supervised Learning in R: Classification](https://www.datacamp.com/courses/supervised-learning-in-r-classification)
+  
+
+## Week 5 (Nov 21)
+
++ [Here](files/SPAM.html) is my analysis on Assignment 2: Spam Data. ***(Updated:30/11/2017)***
+
 
 ## Week 4 (Nov 7)
 
 + You can find [here](files/TDW.html) my studies on Tidyverse Recap: Travel and Weather - Part I dplyr.
+
 
 ## Week 3 (Oct 24)
 
@@ -22,9 +31,6 @@ I finished lessons below on DataCamp. ***(Updated:03/12/2017)***
 
 + We decided on the groups. Our group name is **datING** and other members are Bilge Uzuner, Sefa Erbaş. (Also me Türkan Sevgili:) )
 
-### Udacity Update
-
-I finished first 3 lessons (What is EDA?, R Basics, Explore One Variable) on the Udacity course. I did all the work required and all the quizes.
 
 ## Week 2 (Oct 10)
 
