@@ -14,6 +14,10 @@ I finished lessons below on DataCamp. ***(Updated:03/12/2017)***
   + [Unsupervised Learning in R](https://www.datacamp.com/courses/unsupervised-learning-in-r)
   + [Supervised Learning in R: Classification](https://www.datacamp.com/courses/supervised-learning-in-r-classification)
   
+  
+## Week 6 (Dec 5)
+
++ You can find [my first R package](MyFirstPackage) which have a function that calculates the square of a number. 
 
 ## Week 5 (Nov 21)
 
