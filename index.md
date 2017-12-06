@@ -2,7 +2,7 @@
 
 ### Udacity Update
 
- + I have completed of Udacity course, called “Data Analysis with R”. I finished almost all practices. ***(Updated:06/12/2017)***
+ + I have completed of Udacity course, called [Data Analysis with R](https://www.udacity.com/course/data-analysis-with-r--ud651). I finished almost all practices. ***(Updated:06/12/2017)***
 
  + I finished first 3 lessons (What is EDA?, R Basics, Explore One Variable) on the Udacity course. I did all the work required and all the quizes.
 
