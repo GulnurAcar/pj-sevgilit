@@ -17,7 +17,7 @@ I finished lessons below on DataCamp. ***(Updated:03/12/2017)***
   
 ## Week 6 (Dec 5)
 
-+ You can find [my first R package](MyFirstPackage) which have a function that calculates the square of a number. 
++ You can find [my first R package](https://github.com/MEF-BDA503/pj-sevgilit/tree/master/MyFirstPackage) which have a function that calculates the square of a number. 
 
 ## Week 5 (Nov 21)
 
